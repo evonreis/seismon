@@ -63,7 +63,7 @@ from epics import caput
 import epics
 epics.ca.context_create()
 
-def write_epics(SITE,IFO,eqidx,eq_t,magn,lat,lng,depth,eqdist,rvel,p_arr,s_arr,r20_arr,r35_arr,r50_arr,
+def write_epics(SITE,IFO,eqidx,eq_t,magn,lat,lng,depth,eqdist,rvel,rvel_linear,p_arr,s_arr,r20_arr,r35_arr,r50_arr,
                 c_lat, c_long, c_names):
 # here we use the LIGO meaning of IFO and SITE
 #  SITE is the observatory, IFO is the GWIC interferometer prefix
@@ -97,6 +97,7 @@ def write_epics(SITE,IFO,eqidx,eq_t,magn,lat,lng,depth,eqdist,rvel,p_arr,s_arr,r
     caput(IFO + ':SEI-SEISMON_' + SITE + '_R20_VELOCITY_MPS_%d'%eqidx, rvel)
     caput(IFO + ':SEI-SEISMON_' + SITE + '_R35_VELOCITY_MPS_%d'%eqidx, rvel)
     caput(IFO + ':SEI-SEISMON_' + SITE + '_R50_VELOCITY_MPS_%d'%eqidx, rvel)
+    caput(IFO + ':SEI-SEISMON_' + SITE + '_LINEAR_MODEL_VELOCITY_%d'%eqidx, rvel_linear)
 
     # update program's GPS time
     now_t = Time.now()
@@ -338,6 +339,7 @@ if __name__ == "__main__":
                 depth = float(eq.depth)
                 eqdist = float(pr.d)
                 rvel = float(pr.rfamp)
+                rvel_linear = float(pr.rfamp_linear)
                 p_arr = Time(pr.p,format='datetime')
                 s_arr = Time(pr.s,format='datetime')
                 r20_arr = Time(pr.r2p0,format='datetime')
@@ -346,7 +348,8 @@ if __name__ == "__main__":
                 # print(f"time={eq_t} mag={magn} lat={lat} long={lng}")
 
 # update EPICS channels from them
-                write_epics(site,ifo,num_eq,eq_t,magn,lat,lng,depth,eqdist,rvel,p_arr,s_arr,r20_arr,r35_arr,r50_arr,
+                write_epics(site,ifo,num_eq,eq_t,magn,lat,lng,depth,eqdist,rvel,rvel_linear,p_arr,s_arr,r20_arr,
+                            r35_arr,r50_arr,
                             cntry_latitudes, cntry_longitudes, cntry_names)
 
 

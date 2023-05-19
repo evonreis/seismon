@@ -76,9 +76,6 @@ pvdb = {
     cds.SITE + '_R50_VELOCITY_MPS' : {
         'prec' : 3,
     },
-    cds.SITE + '_LINEAR_MODEL_VELOCITY' : {
-        'prec' : 3,
-    },
     cds.SITE + '_P_ARRIVALTIME_MINS' : {
         'prec' : 0,
     },

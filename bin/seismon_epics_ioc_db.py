@@ -172,6 +172,20 @@ def init_pvdb(SITE):
             'lolim': 0,
             'hilim': 10000,
             },
+            SITE + '_ML_VELOCITY_%d' % idx: {
+            'prec': 4,
+            'type': 'float',
+            'unit': 'um/s',
+            'lolim': 0,
+            'hilim': 10000,
+            },
+            SITE + '_ML_UNCERTAINTY_%d' % idx: {
+            'prec': 4,
+            'type': 'float',
+            'unit': 'um/s',
+            'lolim': 0,
+            'hilim': 10000,
+            },
             SITE + '_P_ARRIVALTIME_MINS_%d'%idx : {
             'prec' : 0,
             'type' : 'float', 

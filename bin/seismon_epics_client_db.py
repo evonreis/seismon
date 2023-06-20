@@ -99,7 +99,7 @@ def write_epics(SITE,IFO,eqidx,eq_t,magn,lat,lng,depth,eqdist,rvel,rvel_linear,r
     caput(IFO + ':SEI-SEISMON_' + SITE + '_R35_VELOCITY_MPS_%d'%eqidx, rvel)
     caput(IFO + ':SEI-SEISMON_' + SITE + '_R50_VELOCITY_MPS_%d'%eqidx, rvel)
     caput(IFO + ':SEI-SEISMON_' + SITE + '_LINEAR_MODEL_VELOCITY_%d'%eqidx, rvel_linear)
-    caput(IFO + ':SEI-SEISMON_' + SITE + '_ML_VELOCITY_%d'%eqidx, rvel_measured)
+    caput(IFO + ':SEI-SEISMON_' + SITE + '_ML_VELOCITY_%d'%eqidx, rvel)
     caput(IFO + ':SEI-SEISMON_' + SITE + '_ML_UNCERTAINTY_%d'%eqidx, rvel_std)
 
     # update program's GPS time

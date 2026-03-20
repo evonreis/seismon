@@ -747,19 +747,17 @@ def ingest_earthquakes(config, lookback, repeat=False):
                 if os.path.isfile(os.path.join(timeFolder,"eqxml.txt")):
                     continue
 
-            f = open(os.path.join(timeFolder,"eqxml.txt"),"w")
-            f.write("Done")
-            f.close()
-
             if os.path.isfile(eqxmlfile):
                 attributeDic = eqmon.read_eqxml(eqxmlfile,eventName)
             elif os.path.isfile(quakemlfile):
                 attributeDic = eqmon.read_quakeml(quakemlfile,eventName)
 
             if attributeDic == []:
+                print(f"Error: no quake attributes read from '{timeFolder}'")
                 continue
 
             if (not "GPS" in attributeDic) or (not "Magnitude" in attributeDic):
+                print(f"Error: quake missing key attributes GPS or Magnitude in '{timeFolder}'")
                 continue
 
             date = Time(attributeDic["Time"], format='isot', scale='utc')
@@ -772,10 +770,14 @@ def ingest_earthquakes(config, lookback, repeat=False):
 
 
 
-            if Time.now() - date > lookbackTD: continue
+            if Time.now() - date > lookbackTD: 
+                print(f"Error: quake rejected as too old in '{timeFolder}'")
+                continue
 
             eqs = Earthquake.query.filter_by(event_id=attributeDic["eventName"]).all()
-            if len(eqs) > 0: continue
+            if len(eqs) > 0: 
+                print(f"Error: quake was already in database: '{timeFolder}'")
+                continue
 
             DBSession().merge(Earthquake(depth=attributeDic["Depth"],
                                          lat=attributeDic["Latitude"],
@@ -789,6 +791,10 @@ def ingest_earthquakes(config, lookback, repeat=False):
                                          
             print('Ingested event: %s' % attributeDic["eventName"])
             DBSession().commit()
+
+            f = open(os.path.join(timeFolder,"eqxml.txt"),"w")
+            f.write("Done")
+            f.close()
 
 
 def run_seismon(purge=False, init_db=False):

@@ -2149,7 +2149,8 @@ def ifotraveltimes_lookup(attributeDic,ifo,ifolat,ifolon,pred=True):
         print("Enable ObsPy if traveltimes information desired...\n")
         return attributeDic
 
-    seismonpath = os.path.dirname(seismon.__file__)
+    #seismonpath = os.path.dirname(seismon.__file__)
+    seismonpath = "/var/lib/seismon/seismon/seismon"
     scriptpath = os.path.join(seismonpath,'input')
     datpath = os.path.join(seismonpath,"..","p_and_s")
 

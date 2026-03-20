@@ -266,15 +266,18 @@ if __name__ == "__main__":
                    port=config['database']['port'])
 
 # get tables from metadata
-    metadata = MetaData(bind=engine)
+    #metadata = MetaData(bind=engine)
+    metadata = MetaData()
 
 #Reflect each database table we need to use, using metadata
     Base = declarative_base()
     class Earthquake(Base):
-        __table__ = Table('earthquakes', metadata, autoload=True)
+        __table__ = Table('earthquakes', metadata, autoload_with=engine) 
+        __table_args__ = {'autoload_with': engine}
 
     class Prediction(Base):
-        __table__ = Table('predictions', metadata, autoload=True)
+        __table__ = Table('predictions', metadata, autoload_with=engine)
+        __table_args__ = {'autoload_with': engine}
 #Create a session to use the tables    
     session = create_session(bind=engine)
 

@@ -34,7 +34,6 @@ from astropy import table
 from astropy import coordinates
 from astropy import units as u
 from astropy.time import Time, TimeDelta
-import pkg_resources
 import numpy as np
 import pandas as pd
 from os.path import basename,splitext 
@@ -795,7 +794,7 @@ def ingest_earthquakes(config, lookback, repeat=False):
 def run_seismon(purge=False, init_db=False):
 
     if purge:
-        sys_command = "find %s/* -type d -mtime +7 -exec rm -rf {} \;" % config["pdlcient"]["directory"]
+        sys_command = "find %s/* -type d -mtime +7 -exec rm -rf {} \\;" % config["pdlcient"]["directory"]
         os.system(sys_command)
 
     if init_db:
@@ -900,8 +899,8 @@ if __name__ == "__main__":
 
     if args.init_db:
         print(f'Creating tables on database {conn.url.database}')
-        Base.metadata.drop_all()
-        Base.metadata.create_all()
+        Base.metadata.drop_all(bind=conn)
+        Base.metadata.create_all(bind=conn)
 
         print('Refreshed tables:')
         for m in Base.metadata.tables:

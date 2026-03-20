@@ -4,7 +4,7 @@ import os
 from flask import Flask
 import click
 from getpass import getpass
-from passlib.apache import HtpasswdFile
+#from passlib.apache import HtpasswdFile
 from werkzeug.routing import BaseConverter
 
 # Application object
